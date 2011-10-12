@@ -114,7 +114,7 @@ define common::archive::download (
       $on_error = "(rm -f ${src_target}/${name} ${src_target}/${name}.${digest_type} && exit 1)"
       exec {"download archive $name and check sum":
         command => $checksum ? {
-          true => "(curl -o ${src_target}/${name} ${url} && ${checksum_cmd}) || ${on_error}",
+          true => "curl -o ${src_target}/${name} ${url} && ${checksum_cmd} || ${on_error}",
           false => "curl -o ${src_target}/${name} ${url}",
           default => fail ( "Unknown checksum value: '${checksum}'" ),
         },
